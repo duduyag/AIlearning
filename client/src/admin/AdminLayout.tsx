@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import clsx from "clsx";
-import { LayoutDashboard, BookOpen, Award, Users } from "lucide-react";
+import { LayoutDashboard, BookOpen, Award, Users, ArrowLeft } from "lucide-react";
 
 const TABS = [
   { to: "/admin", label: "Overview", icon: LayoutDashboard, end: true },
@@ -13,6 +13,13 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-hero-gradient text-white">
       <div className="mx-auto max-w-6xl px-4 py-8">
+        <NavLink
+          to="/course"
+          className="mb-4 flex w-fit items-center gap-1 text-sm text-white/60 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+        >
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          Back to My Course
+        </NavLink>
         <h1 className="mb-6 font-display text-3xl font-800">Admin Panel</h1>
 
         <div className="mb-6 flex flex-wrap gap-1 rounded-2xl glass-panel p-1">
