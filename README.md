@@ -105,9 +105,9 @@ URL + `/api`.
 
 **Backend → Render**: `render.yaml` at the repo root defines the web service + a free
 Postgres database - "New +" → "Blueprint" in the Render dashboard. Fill in
-`CLIENT_ORIGIN` and your AI API keys. The build step runs `prisma migrate deploy`
-automatically; run `npm run db:seed --workspace=server` once via the Render shell to
-seed the curriculum.
+`CLIENT_ORIGIN` and your AI API keys. The build step runs `prisma migrate deploy` and
+`db:seed` automatically on every deploy (the seed script only upserts curriculum
+content and the admin account - it never touches real users' progress or accounts).
 
 ## Editing the curriculum
 
