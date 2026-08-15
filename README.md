@@ -24,7 +24,7 @@ Not a trivia game with an AI theme bolted on - a structured **course**:
 - **Client**: React + TypeScript + Tailwind CSS + Vite, React Router, TanStack Query, Zustand, Framer Motion
 - **Server**: Node.js + Express + TypeScript
 - **Database**: PostgreSQL via Prisma ORM
-- **AI**: Anthropic (Claude) and OpenAI, pluggable via `AI_PROVIDER`, powers only the
+- **AI**: Anthropic (Claude), OpenAI, or Gemini, pluggable via `AI_PROVIDER`, powers only the
   AI Tutor chat (lesson content itself is hand-authored, not regenerated per request)
 
 ## Project structure

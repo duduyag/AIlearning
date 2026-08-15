@@ -25,7 +25,7 @@ services:
       - key: CLIENT_ORIGIN
         sync: false
       - key: AI_PROVIDER
-        value: anthropic
+        value: gemini
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: ANTHROPIC_MODEL
@@ -34,6 +34,10 @@ services:
         sync: false
       - key: OPENAI_MODEL
         value: gpt-4o-mini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
 
 databases:
   - name: ai-explorers-db
