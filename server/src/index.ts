@@ -14,6 +14,11 @@ import adminRouter from "./routes/admin";
 
 const app = express();
 
+// Render (and most PaaS hosts) sit behind a single reverse proxy, which sets
+// X-Forwarded-For. Trusting exactly one hop lets express-rate-limit and req.ip
+// see the real client IP instead of every user sharing the proxy's IP.
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: env.CLIENT_ORIGIN,
