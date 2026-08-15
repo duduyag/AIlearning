@@ -1,0 +1,34 @@
+{
+  "name": "ai-explorers",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An online AI-literacy course for kids 7-12, beginner to advanced",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "build": "npm run build --workspace=shared && npm run build --workspace=server && npm run build --workspace=client",
+    "build:server": "npm run build --workspace=shared && npm run build --workspace=server",
+    "build:client": "npm run build --workspace=shared && npm run build --workspace=client",
+    "db:migrate": "npm run db:migrate --workspace=server --",
+    "db:seed": "npm run db:seed --workspace=server",
+    "db:studio": "npm run db:studio --workspace=server"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "allowScripts": {
+    "@prisma/client@5.22.0": true,
+    "@prisma/engines@5.22.0": true,
+    "prisma@5.22.0": true,
+    "esbuild@0.21.5": true
+  }
+}

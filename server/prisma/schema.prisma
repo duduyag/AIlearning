@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  LEARNER
+  ADMIN
+}
+
+enum Language {
+  EN
+  HE
+}
+
+enum ProgressStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  displayName  String
+  avatarUrl    String?
+  role         Role     @default(LEARNER)
+  language     Language @default(EN)
+  ageGroup     Int      @default(9)
+
+  totalXp             Int       @default(0)
+  currentStreak        Int       @default(0)
+  longestStreak         Int       @default(0)
+  lastActiveDate       DateTime?
+  tutorMessagesSent    Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  progress     UserLessonProgress[]
+  achievements UserAchievement[]
+
+  @@index([totalXp])
+}
+
+model CourseLevel {
+  id            String  @id @default(cuid())
+  key           String  @unique
+  name          String
+  nameHe        String  @default("")
+  description   String
+  descriptionHe String  @default("")
+  order         Int
+  minAge        Int     @default(7)
+  maxAge        Int     @default(12)
+  heroImageUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  units Unit[]
+
+  @@index([order])
+}
+
+model Unit {
+  id            String @id @default(cuid())
+  levelId       String
+  level         CourseLevel @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  key           String
+  name          String
+  nameHe        String @default("")
+  description   String
+  descriptionHe String @default("")
+  order         Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lessons Lesson[]
+
+  @@unique([levelId, key])
+  @@index([levelId, order])
+}
+
+model Lesson {
+  id               String  @id @default(cuid())
+  unitId           String
+  unit             Unit    @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  key              String
+  title            String
+  titleHe          String  @default("")
+  order            Int
+  estimatedMinutes Int     @default(5)
+  heroImageUrl     String?
+  content          Json
+  contentHe        Json    @default("[]")
+  tutorPromptSuggestions   Json @default("[]")
+  tutorPromptSuggestionsHe Json @default("[]")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quizQuestions QuizQuestion[]
+  progress      UserLessonProgress[]
+
+  @@unique([unitId, key])
+  @@index([unitId, order])
+}
+
+model QuizQuestion {
+  id              String @id @default(cuid())
+  lessonId        String
+  lesson          Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  questionText    String
+  questionTextHe  String @default("")
+  options         Json
+  optionsHe       Json   @default("[]")
+  correctAnswer   String
+  correctAnswerHe String @default("")
+  explanation     String
+  explanationHe   String @default("")
+  order           Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([lessonId])
+}
+
+model UserLessonProgress {
+  id          String         @id @default(cuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status      ProgressStatus @default(IN_PROGRESS)
+  bestScore   Int            @default(0)
+  attempts    Int            @default(0)
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+  @@index([userId, status])
+}
+
+model Achievement {
+  id            String @id @default(cuid())
+  key           String @unique
+  name          String
+  nameHe        String @default("")
+  description   String
+  descriptionHe String @default("")
+  icon          String
+  criteria      Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  unlockedBy UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  unlockedAt    DateTime    @default(now())
+
+  @@unique([userId, achievementId])
+}
