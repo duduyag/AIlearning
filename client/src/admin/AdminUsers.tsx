@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ShieldCheck, ShieldOff } from "lucide-react";
-import { api } from "../lib/api";
+import { ShieldCheck, ShieldOff, KeyRound, Trash2 } from "lucide-react";
+import { api, apiErrorMessage } from "../lib/api";
 import { UserDTO } from "@ai-explorers/shared";
 import { useAuthStore } from "../store/authStore";
 
@@ -22,6 +22,32 @@ export default function AdminUsers() {
     mutationFn: async ({ id, role }: { id: string; role: "LEARNER" | "ADMIN" }) => api.patch(`/admin/users/${id}/role`, { role }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-users"] }),
   });
+
+  const passwordMutation = useMutation({
+    mutationFn: async ({ id, password }: { id: string; password: string }) => api.patch(`/admin/users/${id}/password`, { password }),
+    onError: (err) => alert(apiErrorMessage(err, "Couldn't reset the password.")),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => api.delete(`/admin/users/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-users"] }),
+    onError: (err) => alert(apiErrorMessage(err, "Couldn't delete this user.")),
+  });
+
+  function handleResetPassword(user: UserDTO) {
+    const password = window.prompt(`New password for @${user.username} (min 8 characters):`);
+    if (!password) return;
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters.");
+      return;
+    }
+    passwordMutation.mutate({ id: user.id, password });
+  }
+
+  function handleDelete(user: UserDTO) {
+    if (!window.confirm(`Permanently delete @${user.username} (${user.email})? This cannot be undone.`)) return;
+    deleteMutation.mutate(user.id);
+  }
 
   const totalPages = data ? Math.max(1, Math.ceil(data.total / data.pageSize)) : 1;
 
@@ -59,23 +85,40 @@ export default function AdminUsers() {
                 <td className="px-4 py-3">
                   <span className={u.role === "ADMIN" ? "text-accent-300" : "text-white/50"}>{u.role}</span>
                 </td>
-                <td className="px-4 py-3 text-right">
-                  {u.id !== currentUser?.id && (
+                <td className="px-4 py-3">
+                  <div className="flex items-center justify-end gap-1">
+                    {u.id !== currentUser?.id && (
+                      <button
+                        onClick={() => roleMutation.mutate({ id: u.id, role: u.role === "ADMIN" ? "LEARNER" : "ADMIN" })}
+                        className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs hover:bg-white/10"
+                      >
+                        {u.role === "ADMIN" ? (
+                          <>
+                            <ShieldOff className="h-3.5 w-3.5" /> Revoke admin
+                          </>
+                        ) : (
+                          <>
+                            <ShieldCheck className="h-3.5 w-3.5" /> Make admin
+                          </>
+                        )}
+                      </button>
+                    )}
                     <button
-                      onClick={() => roleMutation.mutate({ id: u.id, role: u.role === "ADMIN" ? "LEARNER" : "ADMIN" })}
+                      onClick={() => handleResetPassword(u)}
                       className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs hover:bg-white/10"
+                      title="Set a new password for this user"
                     >
-                      {u.role === "ADMIN" ? (
-                        <>
-                          <ShieldOff className="h-3.5 w-3.5" /> Revoke admin
-                        </>
-                      ) : (
-                        <>
-                          <ShieldCheck className="h-3.5 w-3.5" /> Make admin
-                        </>
-                      )}
+                      <KeyRound className="h-3.5 w-3.5" /> Reset password
                     </button>
-                  )}
+                    {u.id !== currentUser?.id && (
+                      <button
+                        onClick={() => handleDelete(u)}
+                        className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-red-300 hover:bg-red-500/10"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" /> Delete
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

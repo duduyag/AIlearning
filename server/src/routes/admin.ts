@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 import { prisma } from "../lib/prisma";
 import { asyncHandler, ApiError } from "../middleware/errorHandler";
-import { requireAdmin, requireAuth } from "../middleware/auth";
+import { AuthedRequest, requireAdmin, requireAuth } from "../middleware/auth";
 import { toUserDTO } from "../lib/mappers";
 
 const router = Router();
@@ -283,6 +284,29 @@ router.patch(
     const { role } = roleSchema.parse(req.body);
     const user = await prisma.user.update({ where: { id: req.params.id }, data: { role } });
     res.json(toUserDTO(user));
+  })
+);
+
+const passwordSchema = z.object({ password: z.string().min(8).max(72) });
+
+router.patch(
+  "/users/:id/password",
+  asyncHandler(async (req, res) => {
+    const { password } = passwordSchema.parse(req.body);
+    const passwordHash = await bcrypt.hash(password, 10);
+    await prisma.user.update({ where: { id: req.params.id }, data: { passwordHash } });
+    res.status(204).send();
+  })
+);
+
+router.delete(
+  "/users/:id",
+  asyncHandler(async (req: AuthedRequest, res) => {
+    if (req.params.id === req.user!.id) {
+      throw new ApiError(400, "You can't delete your own account while logged in as it");
+    }
+    await prisma.user.delete({ where: { id: req.params.id } });
+    res.status(204).send();
   })
 );
 
