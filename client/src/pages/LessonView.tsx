@@ -11,6 +11,7 @@ import { iconFor } from "../lib/icons";
 import LoadingScreen from "../components/LoadingScreen";
 import RobotMascot from "../components/illustrations/RobotMascot";
 import { useThemeStore } from "../store/themeStore";
+import { playSuccessSound } from "../lib/sound";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -114,6 +115,7 @@ export default function LessonView() {
         answers: lesson.quiz.map((q) => ({ questionId: q.id, answer: answers[q.id] ?? "" })),
       });
       setQuizResult(res.data);
+      if (res.data.passed) playSuccessSound();
       if (res.data.unlockedAchievements.length) setNewAchievements((prev) => [...prev, ...res.data.unlockedAchievements]);
       queryClient.invalidateQueries({ queryKey: ["course"] });
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
