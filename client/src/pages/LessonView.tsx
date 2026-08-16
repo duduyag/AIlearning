@@ -225,27 +225,29 @@ export default function LessonView() {
 
       {/* AI Tutor chat */}
       <div className="glass-card mb-6 p-6 sm:p-8">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="h-10 w-10 flex-shrink-0">
-            <RobotMascot />
+        <div className="mb-4 flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 flex-shrink-0">
+              <RobotMascot />
+            </div>
+            <h2 className="font-display text-lg font-700">{t("lesson.askTutor")}</h2>
           </div>
-          <h2 className="font-display text-lg font-700">{t("lesson.askTutor")}</h2>
-        </div>
 
-        {chatMessages.length === 0 && lesson.tutorPromptSuggestions.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2">
-            <span className="text-xs text-white/50">{t("lesson.tryAsking")}</span>
-            {lesson.tutorPromptSuggestions.map((suggestion) => (
-              <button
-                key={suggestion}
-                onClick={() => setChatInput(suggestion)}
-                className="rounded-full glass-panel px-3 py-1 text-xs text-white/80 hover:bg-white/15"
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-        )}
+          {lesson.tutorPromptSuggestions.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 sm:ms-auto">
+              <span className="text-xs text-white/50">{t("lesson.tryAsking")}</span>
+              {lesson.tutorPromptSuggestions.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  onClick={() => setChatInput(suggestion)}
+                  className="rounded-full glass-panel px-3 py-1 text-xs text-white/80 hover:bg-white/15"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {chatMessages.length > 0 && (
           <div ref={chatScrollRef} className="mb-4 flex max-h-80 flex-col gap-3 overflow-y-auto pe-1">
