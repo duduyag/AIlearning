@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Everything Claude Can Do</title>
+  <meta name="description" content="A complete Claude learning path from beginner use to Claude Code, MCP, agents, subagents, Cowork, design, and professional AI workflows.">
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #5b6472;
+      --line: #d7dde6;
+      --paper: #f7f8fa;
+      --panel: #ffffff;
+      --accent: #b84d2f;
+      --accent-2: #176b87;
+      --accent-3: #5b4bb2;
+      --ok: #18794e;
+      --shadow: 0 14px 34px rgba(17, 24, 39, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(247,248,250,.96)),
+        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1800&q=80") center top / cover fixed;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 56px 0 30px;
+      border-bottom: 1px solid rgba(17,24,39,.12);
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(12px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: 54px;
+      line-height: 1;
+      margin: 0 0 18px;
+      letter-spacing: 0;
+      max-width: 780px;
+    }
+
+    .subtitle {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 850px;
+      margin: 0;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      min-height: 94px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    main {
+      padding: 34px 0 70px;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(247,248,250,.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(17,24,39,.1);
+      margin: 0 0 24px;
+      padding: 12px 0;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .nav a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #273142;
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 10px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 460px;
+      line-height: 1.4;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      min-height: 245px;
+    }
+
+    .thumb {
+      position: relative;
+      background: #101827;
+      min-height: 245px;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.95) contrast(1.05);
+    }
+
+    .level {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(17,24,39,.16);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .content h3 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .content p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.48;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: #f7f8fa;
+      border-radius: 999px;
+      padding: 5px 8px;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .watch {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    .watch a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #fff;
+      background: var(--ink);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .watch small {
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: 12px;
+    }
+
+    .practice {
+      border-left: 4px solid var(--accent-2);
+      background: #f0f7fa;
+      padding: 9px 10px;
+      border-radius: 6px;
+      color: #173b4a;
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .capstone {
+      background: #101827;
+      color: #fff;
+      border-radius: 8px;
+      padding: 28px;
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .capstone h2 { margin: 0 0 12px; font-size: 30px; }
+    .capstone p { color: #cbd5e1; line-height: 1.6; margin: 0 0 16px; }
+    .capstone ol { margin: 0; padding-left: 22px; color: #e5e7eb; line-height: 1.7; }
+
+    .checklist {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .checklist strong { display: block; margin-bottom: 8px; }
+    .checklist ul { margin: 0; padding-left: 20px; line-height: 1.65; color: #dce6f1; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #fff;
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 960px) {
+      h1 { font-size: 42px; }
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .grid { grid-template-columns: 1fr; }
+      .capstone { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { width: min(100% - 22px, 1180px); }
+      header { padding-top: 38px; }
+      h1 { font-size: 34px; }
+      .subtitle { font-size: 17px; }
+      .summary { grid-template-columns: 1fr; }
+      .section-title { align-items: start; flex-direction: column; }
+      .card { grid-template-columns: 1fr; }
+      .thumb { min-height: 190px; }
+      .watch { align-items: stretch; flex-direction: column; }
+      .watch a { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span> Claude mastery roadmap</div>
+      <h1>Everything Claude Can Do</h1>
+      <p class="subtitle">A practical learning path from ordinary Claude chat to professional AI work: prompting, files, research, projects, artifacts, design, connectors, Cowork, code, MCP, agents, subagents, and production-grade workflows. Watch in order, build after each section, and treat every video as a skill drill.</p>
+      <div class="summary" aria-label="Roadmap summary">
+        <div class="stat"><strong>25</strong><span>abilities ordered from beginner to advanced</span></div>
+        <div class="stat"><strong>25+</strong><span>English video lessons with direct YouTube links</span></div>
+        <div class="stat"><strong>4</strong><span>levels: foundation, builder, operator, architect</span></div>
+        <div class="stat"><strong>1</strong><span>capstone project that proves real AI professionalism</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="wrap nav" aria-label="Page sections">
+      <a href="#foundation">Foundation</a>
+      <a href="#builder">Builder</a>
+      <a href="#operator">Operator</a>
+      <a href="#architect">Architect</a>
+      <a href="#capstone">Capstone</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section id="foundation">
+      <div class="section-title">
+        <h2>Level 1: Foundation</h2>
+        <p>Start here. These abilities turn Claude from a chatbot into a serious thinking, writing, research, and analysis partner.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/Xg55nTrbYYY/hqdefault.jpg" alt="Claude beginner tutorial thumbnail"><span class="level">01</span></div>
+          <div class="content">
+            <h3>Use Claude as a daily AI assistant</h3>
+            <p>Learn the interface, settings, model choice, memory, file upload basics, voice, and the difference between quick answers and structured work.</p>
+            <div class="meta"><span class="pill">Claude.ai</span><span class="pill">Beginner</span></div>
+            <div class="practice"><strong>Practice:</strong> Ask Claude to plan one real workday, rewrite one message, and summarize one document.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=Xg55nTrbYYY" target="_blank" rel="noopener">Watch video</a><small>FULL Claude Tutorial For Beginners in 2026</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/ysPbXH0LpIE/hqdefault.jpg" alt="Prompting 101 thumbnail"><span class="level">02</span></div>
+          <div class="content">
+            <h3>Prompt clearly and control output</h3>
+            <p>Master roles, context, constraints, examples, output format, iteration, and the habit of asking Claude to think in useful steps.</p>
+            <div class="meta"><span class="pill">Prompting</span><span class="pill">Anthropic</span></div>
+            <div class="practice"><strong>Practice:</strong> Turn a messy request into a reusable prompt template with role, goal, context, and acceptance criteria.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=ysPbXH0LpIE" target="_blank" rel="noopener">Watch video</a><small>Prompting 101 | Code w/ Claude</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/REDqq8tQi78/hqdefault.jpg" alt="Claude data analysis tutorial thumbnail"><span class="level">03</span></div>
+          <div class="content">
+            <h3>Analyze files, PDFs, tables, and long documents</h3>
+            <p>Use Claude to extract facts, compare documents, find contradictions, summarize long reports, and explain complex files in plain language.</p>
+            <div class="meta"><span class="pill">Files</span><span class="pill">PDF</span><span class="pill">Data</span></div>
+            <div class="practice"><strong>Practice:</strong> Upload a PDF or spreadsheet and ask for insights, missing data, risks, and next actions.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=REDqq8tQi78" target="_blank" rel="noopener">Watch video</a><small>How To Use Claude For Data Analysis</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/WSPChlfxJyA/hqdefault.jpg" alt="Claude advanced feature tutorial thumbnail"><span class="level">04</span></div>
+          <div class="content">
+            <h3>Research, compare, and build decision briefs</h3>
+            <p>Move beyond summaries: have Claude create research questions, compare options, cite uncertainty, and produce decision-ready recommendations.</p>
+            <div class="meta"><span class="pill">Research</span><span class="pill">Briefing</span></div>
+            <div class="practice"><strong>Practice:</strong> Ask for a one-page recommendation with evidence, assumptions, and a decision matrix.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=WSPChlfxJyA" target="_blank" rel="noopener">Watch video</a><small>Full Claude Tutorial: Beginner to Advanced</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/G2B0YWuJUgI/hqdefault.jpg" alt="Prompting playbook thumbnail"><span class="level">05</span></div>
+          <div class="content">
+            <h3>Write, edit, critique, and improve style</h3>
+            <p>Use Claude as an editor for emails, pages, scripts, reports, sales copy, lesson plans, SOPs, and professional communication.</p>
+            <div class="meta"><span class="pill">Writing</span><span class="pill">Editing</span></div>
+            <div class="practice"><strong>Practice:</strong> Give Claude three examples of your preferred style and ask it to rewrite a rough draft to match.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=G2B0YWuJUgI" target="_blank" rel="noopener">Watch video</a><small>The prompting playbook</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/w7_yWjYyxjE/hqdefault.jpg" alt="Claude Projects tutorial thumbnail"><span class="level">06</span></div>
+          <div class="content">
+            <h3>Use Projects and knowledge bases</h3>
+            <p>Build persistent workspaces with instructions, documents, context, and reusable project knowledge instead of restarting from scratch every chat.</p>
+            <div class="meta"><span class="pill">Projects</span><span class="pill">Knowledge</span></div>
+            <div class="practice"><strong>Practice:</strong> Create a project for one business process and add your rules, examples, and reference files.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=w7_yWjYyxjE" target="_blank" rel="noopener">Watch video</a><small>How to Use Claude Projects</small></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="builder">
+      <div class="section-title">
+        <h2>Level 2: Builder</h2>
+        <p>Now Claude starts creating durable outputs: apps, documents, dashboards, designs, automations, and connected workspaces.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/9YGg4JaVN4w/hqdefault.jpg" alt="Claude Artifacts tutorial thumbnail"><span class="level">07</span></div>
+          <div class="content">
+            <h3>Create Artifacts: apps, dashboards, and tools</h3>
+            <p>Turn ideas into interactive web apps, calculators, dashboards, diagrams, docs, and prototypes directly inside Claude.</p>
+            <div class="meta"><span class="pill">Artifacts</span><span class="pill">No-code</span></div>
+            <div class="practice"><strong>Practice:</strong> Build a small calculator, dashboard, or visual explainer as an Artifact and revise it twice.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=9YGg4JaVN4w" target="_blank" rel="noopener">Watch video</a><small>Claude Artifacts: What They Are and How to Use Them</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/gf50PAw7R_w/hqdefault.jpg" alt="Claude Artifacts apps tutorial thumbnail"><span class="level">08</span></div>
+          <div class="content">
+            <h3>Build shareable mini-apps without coding</h3>
+            <p>Use Claude to create practical single-page apps, forms, training tools, content utilities, and custom dashboards from plain English.</p>
+            <div class="meta"><span class="pill">Apps</span><span class="pill">Dashboards</span></div>
+            <div class="practice"><strong>Practice:</strong> Build one useful internal tool and ask Claude to add empty states, validation, and mobile layout.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=gf50PAw7R_w" target="_blank" rel="noopener">Watch video</a><small>Claude Artifacts Tutorial - Build Apps, Documents, and Dashboards</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/clK5xTUy0XM/hqdefault.jpg" alt="Claude Design tutorial thumbnail"><span class="level">09</span></div>
+          <div class="content">
+            <h3>Design with Claude</h3>
+            <p>Use Claude for design briefs, layouts, prototypes, UI copy, visual systems, design critique, and structured creative iteration.</p>
+            <div class="meta"><span class="pill">Design</span><span class="pill">Prototype</span></div>
+            <div class="practice"><strong>Practice:</strong> Ask Claude for three design directions, pick one, then make it produce a clean UI spec.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=clK5xTUy0XM" target="_blank" rel="noopener">Watch video</a><small>The NEW Claude Design - Complete Beginner's Guide</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/FpRNId-jeTQ/hqdefault.jpg" alt="Claude Connectors tutorial thumbnail"><span class="level">10</span></div>
+          <div class="content">
+            <h3>Use Connectors with Gmail, Drive, Calendar, and tools</h3>
+            <p>Connect Claude to real work data so it can find, summarize, compare, and act with the context that normally lives across apps.</p>
+            <div class="meta"><span class="pill">Connectors</span><span class="pill">Google</span><span class="pill">Workspace</span></div>
+            <div class="practice"><strong>Practice:</strong> Connect one source and ask Claude for a weekly brief that references actual documents or messages.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=FpRNId-jeTQ" target="_blank" rel="noopener">Watch video</a><small>Claude Connectors Tutorial for Beginners</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/z9rdrNrkvDY/hqdefault.jpg" alt="Claude Cowork tutorial thumbnail"><span class="level">11</span></div>
+          <div class="content">
+            <h3>Delegate real work with Claude Cowork</h3>
+            <p>Turn Claude into a coworker that can use local files, connectors, project context, skills, and longer-running task delegation.</p>
+            <div class="meta"><span class="pill">Cowork</span><span class="pill">Delegation</span></div>
+            <div class="practice"><strong>Practice:</strong> Delegate a real task, review Claude's plan, approve the work, then ask for a final deliverable.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=z9rdrNrkvDY" target="_blank" rel="noopener">Watch video</a><small>Learn 80% of Claude Cowork in Under 20 Minutes</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/O_z9vDLgvoY/hqdefault.jpg" alt="Claude Skills tutorial thumbnail"><span class="level">12</span></div>
+          <div class="content">
+            <h3>Create reusable Claude Skills</h3>
+            <p>Package repeated instructions, workflows, examples, scripts, and reference material so Claude performs specialized tasks consistently.</p>
+            <div class="meta"><span class="pill">Skills</span><span class="pill">Reusable workflows</span></div>
+            <div class="practice"><strong>Practice:</strong> Convert one repeated task into a skill with steps, inputs, outputs, and quality checks.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=O_z9vDLgvoY" target="_blank" rel="noopener">Watch video</a><small>Claude Skills Tutorial (2026): Build, Run, and Share</small></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="operator">
+      <div class="section-title">
+        <h2>Level 3: Operator</h2>
+        <p>This is where average users become builders: code, apps, workflows, debugging, automation, and tool-connected execution.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/ntDIxaeo3Wg/hqdefault.jpg" alt="Claude Code beginner tutorial thumbnail"><span class="level">13</span></div>
+          <div class="content">
+            <h3>Code with Claude</h3>
+            <p>Use Claude for scripts, websites, debugging, refactoring, tests, explanations, architecture, and safer implementation workflows.</p>
+            <div class="meta"><span class="pill">Code</span><span class="pill">Beginner developer</span></div>
+            <div class="practice"><strong>Practice:</strong> Ask Claude to build a tiny website, explain every file, add tests, and improve the UI.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=ntDIxaeo3Wg" target="_blank" rel="noopener">Watch video</a><small>Claude Code - Full Tutorial for Beginners</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/gv0WHhKelSE/hqdefault.jpg" alt="Claude Code best practices thumbnail"><span class="level">14</span></div>
+          <div class="content">
+            <h3>Use Claude Code like a professional engineer</h3>
+            <p>Learn planning, repository context, CLAUDE.md, safe edits, testing loops, code review habits, and when to let the agent work longer.</p>
+            <div class="meta"><span class="pill">Claude Code</span><span class="pill">Best practices</span></div>
+            <div class="practice"><strong>Practice:</strong> Take an existing repo and ask for plan, implementation, tests, and review notes before merging.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=gv0WHhKelSE" target="_blank" rel="noopener">Watch video</a><small>Claude Code best practices | Code w/ Claude</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/6eBSHbLKuN0/hqdefault.jpg" alt="Mastering Claude Code thumbnail"><span class="level">15</span></div>
+          <div class="content">
+            <h3>Master advanced Claude Code workflows</h3>
+            <p>Use shortcuts, deep context, multi-step planning, terminal workflows, issue fixing, test-driven prompting, and repeatable coding loops.</p>
+            <div class="meta"><span class="pill">Workflow</span><span class="pill">Advanced code</span></div>
+            <div class="practice"><strong>Practice:</strong> Fix a bug by making Claude reproduce it, patch it, test it, and summarize the change.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=6eBSHbLKuN0" target="_blank" rel="noopener">Watch video</a><small>Mastering Claude Code in 30 minutes</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/we4J_JgPeQA/hqdefault.jpg" alt="Claude Code data analysis thumbnail"><span class="level">16</span></div>
+          <div class="content">
+            <h3>Run serious data analysis with Claude Code</h3>
+            <p>Use local files, Python/R/SQL-style workflows, repeatable analysis steps, charts, validation, and clear business conclusions.</p>
+            <div class="meta"><span class="pill">Data analysis</span><span class="pill">Files</span></div>
+            <div class="practice"><strong>Practice:</strong> Give Claude a CSV, ask for a reproducible analysis script, and verify the summary against the data.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=we4J_JgPeQA" target="_blank" rel="noopener">Watch video</a><small>Claude Code: Data Analysis Without the Spreadsheet</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/KiNyvT02HJM/hqdefault.jpg" alt="MCP tutorial thumbnail"><span class="level">17</span></div>
+          <div class="content">
+            <h3>Connect tools with MCP</h3>
+            <p>Use Model Context Protocol so Claude can reach databases, APIs, file systems, docs, browsers, calendars, and custom business tools.</p>
+            <div class="meta"><span class="pill">MCP</span><span class="pill">Tool use</span></div>
+            <div class="practice"><strong>Practice:</strong> Connect one MCP server, test a safe read-only tool, then define clear permission boundaries.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=KiNyvT02HJM" target="_blank" rel="noopener">Watch video</a><small>How To Use Anthropic's Model Context Protocol</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/bdZ7KHx0WpU/hqdefault.jpg" alt="Claude Cowork connectors tutorial thumbnail"><span class="level">18</span></div>
+          <div class="content">
+            <h3>Automate connected workflows safely</h3>
+            <p>Combine connectors, Cowork, project knowledge, and skills so Claude can prepare reports, triage work, and operate across tools.</p>
+            <div class="meta"><span class="pill">Automation</span><span class="pill">Connectors</span><span class="pill">Cowork</span></div>
+            <div class="practice"><strong>Practice:</strong> Build a weekly review workflow with sources, approval checkpoints, and a final briefing format.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=bdZ7KHx0WpU" target="_blank" rel="noopener">Watch video</a><small>How to Use Claude Cowork Connectors</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80" alt="Automation dashboard on a computer screen"><span class="level">19</span></div>
+          <div class="content">
+            <h3>Understand Computer Use and browser-style automation</h3>
+            <p>Learn where Claude can interact with computer environments, screenshots, tools, and controlled automation, and why permissions and sandboxes matter.</p>
+            <div class="meta"><span class="pill">Computer use</span><span class="pill">Automation</span><span class="pill">Safety</span></div>
+            <div class="practice"><strong>Practice:</strong> Design a safe automation brief with allowed actions, forbidden actions, confirmation points, and a rollback plan.</div>
+            <div class="watch"><a href="https://www.youtube.com/playlist?list=PLmkaw6oRnRv9z0Qk79EcMrthofqpoHMxG" target="_blank" rel="noopener">Watch video</a><small>Anthropic Claude Tutorials playlist</small></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="architect">
+      <div class="section-title">
+        <h2>Level 4: Architect</h2>
+        <p>Advanced Claude users design agents, subagents, multi-agent systems, tool boundaries, evaluation loops, and production-grade workflows.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/XSZP9GhhuAc/hqdefault.jpg" alt="Prompting for agents thumbnail"><span class="level">20</span></div>
+          <div class="content">
+            <h3>Prompt for agents, not just answers</h3>
+            <p>Design prompts that let Claude plan, use tools, check progress, adapt, and produce durable results instead of one-shot text.</p>
+            <div class="meta"><span class="pill">Agents</span><span class="pill">Prompting</span></div>
+            <div class="practice"><strong>Practice:</strong> Write an agent prompt with goal, tools, stop rules, quality bar, and handoff summary.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=XSZP9GhhuAc" target="_blank" rel="noopener">Watch video</a><small>Prompting for Agents | Code w/ Claude</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/TqC1qOfiVcQ/hqdefault.jpg" alt="Claude Agent SDK workshop thumbnail"><span class="level">21</span></div>
+          <div class="content">
+            <h3>Build tool-using agents with the Claude Agent SDK</h3>
+            <p>Move from Claude as a UI tool to Claude as an application engine with tools, context, permissions, and programmatic workflows.</p>
+            <div class="meta"><span class="pill">Agent SDK</span><span class="pill">Developer</span></div>
+            <div class="practice"><strong>Practice:</strong> Sketch an agent that reads a file, calls a tool, asks for approval, and writes a final report.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=TqC1qOfiVcQ" target="_blank" rel="noopener">Watch video</a><small>Claude Agent SDK Full Workshop</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/ICgTn1JMU9Y/hqdefault.jpg" alt="Claude subagents tutorial thumbnail"><span class="level">22</span></div>
+          <div class="content">
+            <h3>Create subagents for specialized work</h3>
+            <p>Delegate research, coding, review, testing, writing, security, and data work to separate context-limited agents with clear roles.</p>
+            <div class="meta"><span class="pill">Subagents</span><span class="pill">Delegation</span></div>
+            <div class="practice"><strong>Practice:</strong> Define three subagents: researcher, implementer, and reviewer. Give each a scope and success criteria.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=ICgTn1JMU9Y" target="_blank" rel="noopener">Watch video</a><small>How to Create Sub Agents in Claude Code</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/e18sdZLwP7o/hqdefault.jpg" alt="Claude subagents advanced tutorial thumbnail"><span class="level">23</span></div>
+          <div class="content">
+            <h3>Run parallel and multi-agent workflows</h3>
+            <p>Use multiple Claude agents for faster research, cleaner context, better reviews, and complex builds where one conversation is not enough.</p>
+            <div class="meta"><span class="pill">Multi-agent</span><span class="pill">Parallel work</span></div>
+            <div class="practice"><strong>Practice:</strong> Split one project into parallel research, implementation, validation, and final synthesis tracks.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=e18sdZLwP7o" target="_blank" rel="noopener">Watch video</a><small>How to Build Claude Subagents Better Than 99% of People</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/qiDalcMeBFk/hqdefault.jpg" alt="Claude multi-agent workflows thumbnail"><span class="level">24</span></div>
+          <div class="content">
+            <h3>Coordinate skills, subagents, and handoffs</h3>
+            <p>Build workflows where Claude chooses the right skill, delegates to a subagent, waits for results, and composes a final answer.</p>
+            <div class="meta"><span class="pill">Handoffs</span><span class="pill">Skills</span><span class="pill">Subagents</span></div>
+            <div class="practice"><strong>Practice:</strong> Create a handoff template: task, context, constraints, output format, and verification method.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=qiDalcMeBFk" target="_blank" rel="noopener">Watch video</a><small>How to Use Multi-Agent Workflows in Claude Code</small></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://img.youtube.com/vi/V6OWlR099-A/hqdefault.jpg" alt="Claude Code prompting advanced thumbnail"><span class="level">25</span></div>
+          <div class="content">
+            <h3>Operate like an AI professional</h3>
+            <p>Combine planning, prompts, context, verification, cost control, security, approvals, and documentation into a repeatable AI operating system.</p>
+            <div class="meta"><span class="pill">Professional workflow</span><span class="pill">Safety</span><span class="pill">Review</span></div>
+            <div class="practice"><strong>Practice:</strong> Build your personal AI SOP: when to ask, when to delegate, when to verify, and when to stop.</div>
+            <div class="watch"><a href="https://www.youtube.com/watch?v=V6OWlR099-A" target="_blank" rel="noopener">Watch video</a><small>How Anthropic Engineers Actually Prompt Claude Code</small></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="capstone" class="capstone">
+      <div>
+        <h2>Capstone: prove mastery by building a real AI system</h2>
+        <p>After watching the path, do one integrated project. Do not just consume the videos. Build a working workflow that uses Claude as a professional partner.</p>
+        <ol>
+          <li>Create a Claude Project with instructions and reference files.</li>
+          <li>Build one Artifact that solves a real problem.</li>
+          <li>Use Claude Code to create or improve a small repo.</li>
+          <li>Add one connector or MCP tool with clear permissions.</li>
+          <li>Delegate work to Cowork or a subagent and review the result.</li>
+          <li>Write a final SOP so the workflow can be repeated.</li>
+        </ol>
+      </div>
+      <div class="checklist">
+        <strong>Professional standard</strong>
+        <ul>
+          <li>Every output has a clear goal and acceptance criteria.</li>
+          <li>Claude gets the right context before acting.</li>
+          <li>Tools have permission boundaries.</li>
+          <li>Important actions require review or approval.</li>
+          <li>Claims are verified, not blindly trusted.</li>
+          <li>The workflow is documented so it can run again.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Curated as a practical Claude learning path. Video availability and product names can change over time; use the roadmap structure even if a specific video is replaced. Best result: watch one section, build one artifact, then continue.
+    </div>
+  </footer>
+</body>
+</html>
