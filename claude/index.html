@@ -242,6 +242,57 @@
       line-height: 1.4;
     }
 
+    .intro-video {
+      width: min(860px, 100%);
+      margin: 0 auto 34px;
+    }
+
+    .intro-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(280px, 390px) 1fr;
+      overflow: hidden;
+    }
+
+    body[dir="rtl"] .intro-card {
+      grid-template-columns: 1fr minmax(280px, 390px);
+    }
+
+    .intro-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 22px;
+    }
+
+    .intro-copy h2 {
+      font-size: 28px;
+      line-height: 1.12;
+      margin: 0;
+    }
+
+    .intro-copy p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .intro-kicker {
+      align-self: flex-start;
+      border: 1px solid rgba(184, 77, 47, .28);
+      background: #fff5f1;
+      border-radius: 8px;
+      color: #8f351f;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.2;
+      padding: 8px 10px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -435,6 +486,8 @@
       .capstone { grid-template-columns: 1fr; }
       body[dir="rtl"] .card,
       .card { grid-template-columns: 190px 1fr; }
+      body[dir="rtl"] .intro-card,
+      .intro-card { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
@@ -494,7 +547,7 @@
         subtitle: "A practical learning path from ordinary Claude chat to professional AI work: prompting, files, research, projects, artifacts, design, connectors, Cowork, code, MCP, agents, subagents, and production-grade workflows. Watch in order, build after each section, and treat every video as a skill drill.",
         summary: [
           ["25", "abilities ordered from beginner to advanced"],
-          ["25+", "English video lessons with direct YouTube links"],
+          ["26", "English video lessons with direct YouTube links"],
           ["4", "levels: foundation, builder, operator, architect"],
           ["1", "capstone project that proves real AI professionalism"]
         ],
@@ -507,9 +560,19 @@
         ],
         watch: "Watch video",
         durationLabel: "Video length:",
-        totalSticker: (duration) => `${duration} hours of explainer videos until you know it all`,
+        totalSticker: ({ hours, minutes }) => `${hours} hours and ${minutes} minutes of explainer videos until you know it all`,
+        introLabel: "Start here",
         playlistDuration: "Playlist",
         practice: "Practice:",
+        introVideo: {
+          image: "WSPChlfxJyA",
+          alt: "Claude capabilities overview thumbnail",
+          title: "Quick overview before the full Claude roadmap",
+          desc: "A short, popular overview of what Claude can do and how it can help at work, at home, and in everyday life before starting the full learning path.",
+          tags: ["Overview", "Beginner", "845K views", "4 months ago"],
+          href: "https://www.youtube.com/watch?v=WSPChlfxJyA",
+          note: "Full Claude Tutorial: Beginner to Advanced in 19 Minutes"
+        },
         sections: [
           {
             id: "foundation",
@@ -591,7 +654,7 @@
         subtitle: "מסלול לימוד פרקטי שמתחיל משיחה רגילה עם \u200eClaude\u200e ומתקדם לעבודה מקצועית עם \u200eAI\u200e: פרומפטים, קבצים, מחקר, \u200eProjects\u200e, \u200eArtifacts\u200e, עיצוב, \u200eConnectors\u200e, \u200eCowork\u200e, קוד, \u200eMCP\u200e, סוכנים, תתי-סוכנים ותהליכי עבודה ברמה גבוהה. צופים לפי הסדר, בונים אחרי כל חלק, ומתייחסים לכל סרטון כתרגול של יכולת אמיתית.",
         summary: [
           ["25", "יכולות מסודרות מהבסיס ועד לרמה מתקדמת"],
-          ["25+", "שיעורי וידאו באנגלית עם קישורים ישירים ל-\u200eYouTube\u200e"],
+          ["26", "שיעורי וידאו באנגלית עם קישורים ישירים ל-\u200eYouTube\u200e"],
           ["4", "רמות: יסודות, בנייה, הפעלה, ארכיטקטורה"],
           ["1", "פרויקט מסכם שמוכיח עבודה מקצועית אמיתית עם AI"]
         ],
@@ -604,9 +667,19 @@
         ],
         watch: "לצפייה בסרטון",
         durationLabel: "אורך הסרטון:",
-        totalSticker: (duration) => `${duration} שעות של סרטוני הסבר עד שתדעו הכללללל`,
+        totalSticker: ({ hours, minutes }) => `${hours} שעות ו-${minutes} דקות של סרטוני הסבר עד שתדעו הכללללל`,
+        introLabel: "מתחילים כאן",
         playlistDuration: "פלייליסט",
         practice: "תרגול:",
+        introVideo: {
+          image: "WSPChlfxJyA",
+          alt: "תמונה ממוזערת לסקירת יכולות Claude",
+          title: "סקירה קצרה לפני מסלול Claude המלא",
+          desc: "סרטון פתיחה קצר ופופולרי שמראה על קצה המזלג מה Claude יודע לעשות ואיך הוא יכול לעזור בעבודה, בבית ובחיים לפני שמתחילים את כל מסלול הלימוד.",
+          tags: ["סקירה", "מתחילים", "845K צפיות", "לפני 4 חודשים"],
+          href: "https://www.youtube.com/watch?v=WSPChlfxJyA",
+          note: "Full Claude Tutorial: Beginner to Advanced in 19 Minutes"
+        },
         sections: [
           {
             id: "foundation",
@@ -682,6 +755,7 @@
     };
 
     const durations = {
+      "WSPChlfxJyA": "19:13",
       "r2vYObllqJU": "8:37",
       "5aUgDDWd4-k": "16:16",
       "_gMo62H54Ak": "2:03",
@@ -718,11 +792,13 @@
         : parts[0] * 60 + parts[1];
     }
 
-    function totalDuration() {
+    function totalDurationParts() {
       const seconds = Object.values(durations).reduce((sum, duration) => sum + durationToSeconds(duration), 0);
-      const hours = Math.floor(seconds / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      return `${hours}:${String(minutes).padStart(2, "0")}`;
+      const totalMinutes = Math.round(seconds / 60);
+      return {
+        hours: Math.floor(totalMinutes / 60),
+        minutes: totalMinutes % 60
+      };
     }
 
     function cardDuration(card, lang) {
@@ -750,6 +826,25 @@
         </article>`;
     }
 
+    function createIntroVideo(lang) {
+      const video = lang.introVideo;
+      const duration = durations[video.image];
+      return `
+        <section class="intro-video" aria-label="${lang.introLabel}">
+          <article class="intro-card">
+            <div class="thumb"><img src="${youtubeImage(video.image)}" alt="${video.alt}"></div>
+            <div class="intro-copy">
+              <span class="intro-kicker">${lang.introLabel}</span>
+              <h2>${video.title}</h2>
+              <p>${video.desc}</p>
+              <div class="meta">${video.tags.map(tag => `<span class="pill">${tag}</span>`).join("")}</div>
+              <div class="watch"><a href="${video.href}" target="_blank" rel="noopener">${lang.watch}</a><small>${video.note}</small></div>
+              <div class="duration">${lang.durationLabel} ${duration}</div>
+            </div>
+          </article>
+        </section>`;
+    }
+
     function render(langCode) {
       const lang = data[langCode];
       document.documentElement.lang = lang.htmlLang;
@@ -762,14 +857,14 @@
       document.querySelectorAll("[data-i18n]").forEach(node => {
         node.innerHTML = lang[node.dataset.i18n];
       });
-      document.getElementById("total-sticker").textContent = lang.totalSticker(totalDuration());
+      document.getElementById("total-sticker").textContent = lang.totalSticker(totalDurationParts());
       document.getElementById("summary").innerHTML = lang.summary
         .map(([value, label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`)
         .join("");
       document.getElementById("nav").innerHTML = lang.nav
         .map(([id, label]) => `<a href="#${id}">${label}</a>`)
         .join("");
-      document.getElementById("content").innerHTML = lang.sections.map(section => `
+      document.getElementById("content").innerHTML = createIntroVideo(lang) + lang.sections.map(section => `
         <section id="${section.id}">
           <div class="section-title">
             <h2>${section.title}</h2>
