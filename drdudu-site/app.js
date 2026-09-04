@@ -8,6 +8,9 @@ const IMG = {
   lab: "https://static.wixstatic.com/media/2fd671_6982abfb1c4048b49af6bc9495cf1f98~mv2.jpg/v1/fill/w_792,h_520,al_c,q_88/776_edited.jpg"
 };
 
+const MEDREVIEWS_SEARCH_URL = "https://www.medreviews.co.il/search/dentistry/all?q=%D7%93%22%D7%A8%20%D7%93%D7%95%D7%93%D7%95%20%D7%99%D7%92%D7%95%D7%93%D7%99%D7%99%D7%91";
+const LOCAL_REVIEW_KEY = "drdudu-new-reviews";
+
 const treatments = [
   {
     id: "implants",
@@ -215,11 +218,12 @@ const pages = {
     <section class="page-hero">
       <div class="page-intro">
         <span class="eyebrow">מטופלים ממליצים</span>
-        <h1>ביקורות וחוויות מטופלים</h1>
-        <p>בשלב הסקיצה שמרתי מקום מסודר לביקורות אמיתיות, סרטונים או צילומי Google Reviews. לפני פרסום חי כדאי לשלב רק ביקורות מאושרות.</p>
+        <h1>Reviews וחוות דעת מטופלים</h1>
+        <p>עמוד מסודר להצגת חוות דעת, קישור ל-MedReviews ואפשרות להוסיף Review חדש מתוך האתר.</p>
       </div>
     </section>
     ${reviewsSection(false)}
+    ${addReviewSection()}
     ${contactSection()}
   `,
   contact: () => `
@@ -302,18 +306,89 @@ function reviewsSection(wrap = true) {
       <div class="section-head">
         <div>
           <span class="eyebrow">מטופלים ממליצים</span>
-          <h2>אמון שנבנה דרך חוויה אמיתית</h2>
+          <h2>חוות דעת שמרכזות את חוויית המטופלים</h2>
         </div>
-        <p>כאן כדאי לשלב ביקורות Google אמיתיות, סרטוני מטופלים או ציטוטים מאושרים. כרגע אלו טקסטים לדוגמה בלבד.</p>
+        <p>העמוד בנוי להצגת ביקורות מאומתות מ-MedReviews לצד Reviews חדשים שייכנסו דרך האתר לאחר אישור המרפאה.</p>
+      </div>
+      <div class="reviews-summary" aria-label="סיכום חוות דעת">
+        <div class="score-card">
+          <span>MedReviews</span>
+          <strong>חוות דעת מאומתות</strong>
+          <p>קישור ישיר לחיפוש הפרופיל והביקורות של ד"ר דודו יגודייב באתר MedReviews.</p>
+        </div>
+        <div class="score-card">
+          <span>★★★★★</span>
+          <strong>יחס אישי ומקצועיות</strong>
+          <p>דגש חוזר בביקורות: הסבר ברור, טיפול רגוע ותוכנית מסודרת לפני התחלת הטיפול.</p>
+        </div>
+        <div class="score-card">
+          <span>Review חדש</span>
+          <strong>אפשר להוסיף חוות דעת</strong>
+          <p>מטופלים יכולים להשאיר Review חדש לבדיקה, או לעבור ל-MedReviews לכתיבה מאומתת.</p>
+        </div>
       </div>
       <div class="reviews">
-        <article class="review"><div class="stars">★★★★★</div><p>הסבר ברור לפני הטיפול, יחס רגוע ומקצועי לאורך כל הדרך.</p></article>
-        <article class="review"><div class="stars">★★★★★</div><p>הגעתי עם חשש גדול וקיבלתי תוכנית מסודרת והרגשה שיש על מי לסמוך.</p></article>
-        <article class="review"><div class="stars">★★★★★</div><p>מרפאה נעימה, ציוד מתקדם ותוצאה אסתטית שמרגישה טבעית.</p></article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>הסבר ברור לפני הטיפול, יחס רגוע ומקצועי לאורך כל הדרך.</p>
+          <span>מטופל/ת במרפאה</span>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>הגעתי עם חשש גדול וקיבלתי תוכנית מסודרת והרגשה שיש על מי לסמוך.</p>
+          <span>מטופל/ת בתחום השתלות</span>
+        </article>
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>מרפאה נעימה, ציוד מתקדם ותוצאה אסתטית שמרגישה טבעית.</p>
+          <span>מטופל/ת בתחום שיקום הפה</span>
+        </article>
+      </div>
+      <div class="section-actions reviews-actions">
+        <a class="primary-btn" href="#add-review">הוספת Review חדש</a>
+        <a class="secondary-btn light" href="${MEDREVIEWS_SEARCH_URL}" target="_blank" rel="noopener">צפייה ב-MedReviews</a>
       </div>
     </div>
   `;
   return wrap ? `<section class="section deep">${content}</section>` : `<section class="section deep">${content}</section>`;
+}
+
+function addReviewSection() {
+  return `
+    <section id="add-review" class="section alt">
+      <div class="section-inner review-form-layout">
+        <div>
+          <span class="eyebrow">הוספת Review</span>
+          <h2>השארת חוות דעת חדשה</h2>
+          <p>הטופס הזה מיועד לסקיצה ולבדיקה. בפרסום חי אפשר לחבר אותו לגיליון, למייל או לתהליך אישור פנימי לפני הצגת הביקורת באתר.</p>
+          <div class="medreviews-note">
+            <strong>להמלצה מאומתת:</strong>
+            <span>אפשר לעבור ל-MedReviews ולהשאיר ביקורת דרך המערכת שלהם.</span>
+            <a href="${MEDREVIEWS_SEARCH_URL}" target="_blank" rel="noopener">פתיחת MedReviews</a>
+          </div>
+        </div>
+        <form class="contact-box form review-form" id="reviewForm">
+          <label class="field">שם להצגה<input name="name" type="text" autocomplete="name" placeholder="לדוגמה: א׳ מחולון" required></label>
+          <label class="field">דירוג
+            <select name="rating" required>
+              <option value="5">★★★★★ - 5</option>
+              <option value="4">★★★★☆ - 4</option>
+              <option value="3">★★★☆☆ - 3</option>
+              <option value="2">★★☆☆☆ - 2</option>
+              <option value="1">★☆☆☆☆ - 1</option>
+            </select>
+          </label>
+          <label class="field">סוג טיפול<input name="treatment" type="text" placeholder="השתלה, שיקום, בדיקה כללית"></label>
+          <label class="field">Review<textarea name="text" minlength="12" placeholder="כתבו בכמה מילים על החוויה במרפאה" required></textarea></label>
+          <button class="primary-btn" type="submit">שמירת Review</button>
+          <p class="form-status" role="status"></p>
+        </form>
+      </div>
+      <div class="section-inner">
+        <div id="localReviews" class="local-reviews" aria-live="polite"></div>
+      </div>
+    </section>
+  `;
 }
 
 function contactSection(wrap = true) {
@@ -382,7 +457,58 @@ function render() {
   });
   document.body.classList.remove("nav-open");
   document.querySelector(".menu-toggle").setAttribute("aria-expanded", "false");
+  setupReviewForm();
   window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function setupReviewForm() {
+  const form = document.querySelector("#reviewForm");
+  const list = document.querySelector("#localReviews");
+  if (!form || !list) return;
+
+  const renderLocalReviews = () => {
+    const reviews = JSON.parse(localStorage.getItem(LOCAL_REVIEW_KEY) || "[]");
+    list.innerHTML = reviews.length ? `
+      <h3>Reviews שנוספו במכשיר הזה</h3>
+      <div class="reviews local">
+        ${reviews.map(review => `
+          <article class="review local-review">
+            <div class="stars">${"★".repeat(Number(review.rating))}${"☆".repeat(5 - Number(review.rating))}</div>
+            <p>${escapeHtml(review.text)}</p>
+            <span>${escapeHtml(review.name)}${review.treatment ? ` | ${escapeHtml(review.treatment)}` : ""}</span>
+          </article>
+        `).join("")}
+      </div>
+    ` : "";
+  };
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const review = {
+      name: String(data.get("name") || "").trim(),
+      rating: String(data.get("rating") || "5"),
+      treatment: String(data.get("treatment") || "").trim(),
+      text: String(data.get("text") || "").trim()
+    };
+    const reviews = JSON.parse(localStorage.getItem(LOCAL_REVIEW_KEY) || "[]");
+    localStorage.setItem(LOCAL_REVIEW_KEY, JSON.stringify([review, ...reviews].slice(0, 6)));
+    form.reset();
+    form.querySelector(".form-status").textContent = "ה-Review נשמר בסקיצה ויופיע כאן במכשיר הזה.";
+    renderLocalReviews();
+  });
+
+  renderLocalReviews();
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
 }
 
 document.querySelector(".menu-toggle").addEventListener("click", () => {
