@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>סקר שביעות רצון – קורס סד נחירות ICD</title>
+  <style>
+    :root{font-family:Arial,sans-serif;color:#17324d;background:#f4f7fa}*{box-sizing:border-box}body{margin:0}.wrap{max-width:720px;margin:auto;padding:18px}.card{background:#fff;border-radius:18px;padding:22px;margin:12px 0;box-shadow:0 5px 24px #17324d12}h1{font-size:25px;margin:4px 0 10px}h2{font-size:19px;margin:0 0 14px}.muted{color:#5c7082;line-height:1.55}.field{margin:14px 0}label,legend{font-weight:700;display:block;margin-bottom:8px}.choice{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.choice.three{grid-template-columns:repeat(3,1fr)}.choice label{margin:0}.choice input{position:absolute;opacity:0}.choice span{display:block;text-align:center;padding:13px 5px;border:1px solid #c9d5df;border-radius:12px;background:#fff}.choice input:checked+span{background:#17324d;color:white;border-color:#17324d}input[type=text],input[type=tel],textarea,select{width:100%;padding:13px;border:1px solid #c9d5df;border-radius:10px;font:inherit;background:#fff}textarea{min-height:90px;resize:vertical}.q{border-top:1px solid #e2e9ee;padding-top:16px;margin-top:16px}.btn{width:100%;border:0;border-radius:12px;padding:15px;background:#159a92;color:#fff;font-size:18px;font-weight:700;cursor:pointer}.status{margin-top:12px;text-align:center;font-weight:700}.error{color:#b42318}.ok{color:#087443}
+  </style>
+</head>
+<body><main class="wrap">
+  <section class="card"><h1>סקר שביעות רצון – קורס סד דנטלי לנחירות</h1><p class="muted">תודה על השתתפותך בקורס. ניתן להשיב באופן אנונימי. השם והטלפון הם שדות רשות.</p></section>
+  <form id="survey" class="card">
+    <h2>זיהוי (רשות)</h2>
+    <div class="field"><label for="identity">אופן הזדהות</label><select id="identity" name="identity"><option>אנונימי</option><option>שם וטלפון</option></select></div>
+    <div class="field"><label for="name">שם</label><input id="name" name="name" autocomplete="name"></div>
+    <div class="field"><label for="phone">טלפון</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+    <div class="field"><label for="cohort">מחזור קורס</label><input id="cohort" name="cohort"></div>
+    <div id="questions"></div>
+    <button class="btn" type="submit">שליחת הסקר</button><div id="status" class="status" role="status"></div>
+  </form>
+</main>
+<script>
+const ENDPOINT="PASTE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const qs=[
+ ['Q1','שביעות רצון כללית מהקורס','scale5'],['Q2','רלוונטיות התוכן לעבודה הקלינית','scale5'],['Q3','מקצועיות המרצה ויכולת ההעברה','scale5'],['Q4','החלק המעשי (Hands-on)','scale5'],['Q5','ביטחון באבחון ובבחירת מטופלים מתאימים לסד','scale5'],['Q6','ביטחון בלקיחת מטבעים ורישום נשיכה בקידום לסת','scale5'],['Q7','בהירות תהליך ההזמנה מהמעבדה','scale5'],['Q8','חומרי הלימוד והמצגות','scale5'],['Q9','ארגון, מקום ומשך הקורס','scale5'],['Q10','תמורה למחיר','scale5'],
+ ['Q11','מתי תתחיל/י להציע סדים לנחירות במרפאה?',['כבר התחלתי','תוך חודש','תוך 3 חודשים','מאוחר יותר / לא בטוח','לא מתכנן']],['Q13','מה הסיכוי שתמליץ/י על הקורס לעמית? (NPS)','nps'],['Q14','האם תרצה/י להשתתף בקורס המשך מתקדם?',['כן','אולי','לא']],['Q15','מה היה הכי מועיל בקורס?','text'],['Q16','מה כדאי לשפר?','text'],['Q17','נושאים שתרצה/י בקורסים הבאים','text']
+];
+const root=document.querySelector('#questions');
+for(const [code,label,type] of qs){const box=document.createElement('fieldset');box.className='q';box.dataset.code=code;const legend=document.createElement('legend');legend.textContent=`${code} — ${label}`;box.append(legend);if(type==='text'){const t=document.createElement('textarea');t.name=code;t.required=code==='Q15';box.append(t)}else{const opts=type==='scale5'?[1,2,3,4,5]:type==='nps'?[0,1,2,3,4,5,6,7,8,9,10]:type;const row=document.createElement('div');row.className='choice '+(opts.length===3?'three':'');opts.forEach((v,i)=>{const l=document.createElement('label');const input=document.createElement('input');input.type='radio';input.name=code;input.value=v;input.required=true;const s=document.createElement('span');s.textContent=v;l.append(input,s);row.append(l)});box.append(row)}root.append(box)}
+document.querySelector('#survey').addEventListener('submit',async e=>{e.preventDefault();const st=document.querySelector('#status');if(ENDPOINT.includes('PASTE_')){st.className='status error';st.textContent='הטופס עדיין לא חובר לכתובת השליחה.';return}const data=Object.fromEntries(new FormData(e.target));data.timestamp=new Date().toISOString();st.className='status';st.textContent='שולח...';try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});e.target.reset();st.className='status ok';st.textContent='תודה, התשובות התקבלו.'}catch(err){st.className='status error';st.textContent='אירעה תקלה בשליחה. נסו שוב.'}});
+</script></body></html>
